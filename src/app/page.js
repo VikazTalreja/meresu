@@ -46,7 +46,7 @@ export default function HomePage() {
     setError(null);
 
     try {
-      const response = await fetch("http://localhost:5000/api/company-info", {
+      const response = await fetch("https://meresu-backend.onrender.com/api/company-info", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
