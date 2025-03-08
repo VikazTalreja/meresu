@@ -1,101 +1,147 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 
-export default function Home() {
+export default function HomePage() {
+  const [companyName, setCompanyName] = useState("");
+  // const [data, setData] = useState({
+  //     "id": "71425e2f-b9b5-4310-8bf7-93a98d7aaa6d",
+  //     "model": "sonar",
+  //     "created": 1741448653,
+  //     "usage": {
+  //         "prompt_tokens": 1218,
+  //         "completion_tokens": 281,
+  //         "total_tokens": 1499
+  //     },
+  //     "citations": [
+  //         "https://www.thecompanycheck.com/company/meresu-ventures-india-private-limited/U63119MH2024PTC426471",
+  //         "https://www.indiafilings.com/search/meresu-ventures-india-private-limited-cin-U63119MH2024PTC426471",
+  //         "https://internshala.com/company/meresu-ventures-india-private-limited-1739380952/",
+  //         "https://meresu.in",
+  //         "https://www.falconebiz.com/company/MERESU-VENTURES-INDIA-PRIVATE-LIMITED-U63119MH2024PTC426471"
+  //     ],
+  //     "object": "chat.completion",
+  //     "choices": [
+  //         {
+  //             "index": 0,
+  //             "finish_reason": "stop",
+  //             "message": {
+  //                 "role": "assistant",
+  //                 "content": "## Basic Information\n\n- **Full Legal Name:** Meresu Ventures India Private Limited\n- **Corporate Identification Number (CIN):** U63119MH2024PTC426471\n- **GST Number:** Not available in the provided data.\n\n## Director Information\n\n- **Names and Roles:**\n  - Manish Bhingarde (Director)\n  - Vijendra Pawar (Director)\n  - Ashish Singh (Director)\n  - Narayan Debanath (Director)\n  - Harsh Chaudhari (Director)\n- **Tenure:** All directors were appointed on June 4, 2024.\n\n## Financials\n\n- **Revenue, Profit, Key Ratios:** The latest financial reports are not available in the provided data. However, the company has an authorized and paid-up capital of ₹0.10 million (₹100,000) each[1][2].\n- **Latest Filings:** No recent financial filings have been reported.\n\n## Market Position & History with Steel Vendors\n\nThere is no specific information available regarding Meresu Ventures India's involvement with steel vendors, such as JSW Steel competitors, purchase history, supplier relationships, existing contracts, key procurement policies, supplier preferences, or buying behavior. Meresu Ventures India is primarily an AI-driven HR tech SaaS company focused on workforce management and employee engagement solutions[3][4]."
+  //             },
+  //             "delta": {
+  //                 "role": "assistant",
+  //                 "content": ""
+  //             }
+  //         }
+  //     ]
+  // });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [data, setData] = useState(null)
+
+  const fetchCompanyInfo = async () => {
+    if (!companyName.trim()) return;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch("http://localhost:5000/api/company-info", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ companyName }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch company details");
+      }
+
+      const data = await response.json();
+      setData(data);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const removeMarkdown = (text) => {
+    return text.replace(/\*\*(.*?)\*\*/g, "$1");
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
+    <div className="h-screen flex flex-col">
+      {/* Top Section */}
+      <div className="h-[40%] flex flex-col items-center justify-center bg-gray-200 p-6">
+        <h1 className="text-4xl font-bold text-gray-800">Company Search</h1>
+        <input
+          type="text"
+          placeholder="Enter company name or CIN"
+          className="mt-4 w-2/3 md:w-1/2 p-3 border border-gray-400 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+          value={companyName}
+          onChange={(e) => setCompanyName(e.target.value)}
         />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+        <button
+          onClick={fetchCompanyInfo}
+          className={`mt-4 px-6 py-2 rounded-lg text-white transition ${
+            loading ? "bg-gray-500 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+          }`}
+          disabled={loading}
+        >
+          {loading ? "Searching..." : "Search"}
+        </button>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      {/* Bottom Section */}
+      <div className="h-[60%] bg-white p-6 overflow-y-auto">
+      {loading && <p className="text-center text-gray-600">Fetching company details...</p>}
+      {error && <p className="text-red-500 text-center">{error}</p>}
+
+      {data && data.choices?.[0]?.message?.content ? (
+        <div className="p-4 border border-gray-300 rounded-lg shadow-md bg-gray-50">
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Company Details</h2>
+
+          {/* Extract and format content dynamically */}
+          <div className="space-y-4 text-gray-800">
+            {data.choices[0].message.content
+              .split("\n\n")
+              .map((section, index) => {
+                const [title, ...details] = section.split("\n");
+                return (
+                  <div key={index}>
+                    <h3 className="text-lg font-semibold">
+                      {removeMarkdown(title.replace(/## /, ""))}
+                    </h3>
+                    <ul className="list-disc pl-5 text-gray-700">
+                      {details.map((detail, i) => (
+                        <li key={i}>{removeMarkdown(detail.replace(/^- /, ""))}</li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
+
+            {/* Citations */}
+            {data.citations && data.citations.length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold">References & Citations</h3>
+                <ul className="list-disc pl-5 text-blue-600">
+                  {data.citations.map((link, index) => (
+                    <li key={index}>
+                      <a href={link} target="_blank" rel="noopener noreferrer" className="hover:underline">
+                        {link}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      ) : null}
+    </div>
     </div>
   );
 }

@@ -1,0 +1,32 @@
+{
+    "id": "71425e2f-b9b5-4310-8bf7-93a98d7aaa6d",
+    "model": "sonar",
+    "created": 1741448653,
+    "usage": {
+        "prompt_tokens": 1218,
+        "completion_tokens": 281,
+        "total_tokens": 1499
+    },
+    "citations": [
+        "https://www.thecompanycheck.com/company/meresu-ventures-india-private-limited/U63119MH2024PTC426471",
+        "https://www.indiafilings.com/search/meresu-ventures-india-private-limited-cin-U63119MH2024PTC426471",
+        "https://internshala.com/company/meresu-ventures-india-private-limited-1739380952/",
+        "https://meresu.in",
+        "https://www.falconebiz.com/company/MERESU-VENTURES-INDIA-PRIVATE-LIMITED-U63119MH2024PTC426471"
+    ],
+    "object": "chat.completion",
+    "choices": [
+        {
+            "index": 0,
+            "finish_reason": "stop",
+            "message": {
+                "role": "assistant",
+                "content": "## Basic Information\n\n- **Full Legal Name:** Meresu Ventures India Private Limited\n- **Corporate Identification Number (CIN):** U63119MH2024PTC426471\n- **GST Number:** Not available in the provided data.\n\n## Director Information\n\n- **Names and Roles:**\n  - Manish Bhingarde (Director)\n  - Vijendra Pawar (Director)\n  - Ashish Singh (Director)\n  - Narayan Debanath (Director)\n  - Harsh Chaudhari (Director)\n- **Tenure:** All directors were appointed on June 4, 2024.\n\n## Financials\n\n- **Revenue, Profit, Key Ratios:** The latest financial reports are not available in the provided data. However, the company has an authorized and paid-up capital of ₹0.10 million (₹100,000) each[1][2].\n- **Latest Filings:** No recent financial filings have been reported.\n\n## Market Position & History with Steel Vendors\n\nThere is no specific information available regarding Meresu Ventures India's involvement with steel vendors, such as JSW Steel competitors, purchase history, supplier relationships, existing contracts, key procurement policies, supplier preferences, or buying behavior. Meresu Ventures India is primarily an AI-driven HR tech SaaS company focused on workforce management and employee engagement solutions[3][4]."
+            },
+            "delta": {
+                "role": "assistant",
+                "content": ""
+            }
+        }
+    ]
+}
