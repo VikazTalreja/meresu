@@ -73,7 +73,6 @@ export default function HomePage() {
 
   return (
     <div className="h-screen flex flex-col">
-      {/* Top Section */}
       <div className="h-[40%] flex flex-col items-center justify-center bg-gray-200 p-6">
         <h1 className="text-4xl font-bold text-gray-800">Company Search</h1>
         <input
@@ -94,7 +93,6 @@ export default function HomePage() {
         </button>
       </div>
 
-      {/* Bottom Section */}
       <div className="h-[60%] bg-white p-6 overflow-y-auto">
       {loading && <p className="text-center text-gray-600">Fetching company details...</p>}
       {error && <p className="text-red-500 text-center">{error}</p>}
@@ -123,7 +121,6 @@ export default function HomePage() {
                 );
               })}
 
-            {/* Citations */}
             {data.citations && data.citations.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold">References & Citations</h3>
